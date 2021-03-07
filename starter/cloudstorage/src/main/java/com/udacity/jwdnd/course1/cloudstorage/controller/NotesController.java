@@ -8,16 +8,16 @@
 //import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //
-////@Controller
-////@RequestMapping("/home")
+//@Controller
 //public class NotesController {
-////    @GetMapping
+//    @GetMapping
+//    @RequestMapping("/home")
 //    public String getMessage(Model model){
-////        return "home";
-////    }
+//        return "home";
+//    }
 //
 ////    @PostMapping
-////    public String addMessage(@ModelAttribute("chatForm") ChatForm chatForm, Authentication authentication, Model model){
+////    public String addMessage(Model model){
 ////        return "home";
 ////    }
 //}

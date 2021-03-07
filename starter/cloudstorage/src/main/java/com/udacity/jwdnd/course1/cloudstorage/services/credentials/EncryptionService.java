@@ -1,4 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage.services.files;
+package com.udacity.jwdnd.course1.cloudstorage.services.credentials;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

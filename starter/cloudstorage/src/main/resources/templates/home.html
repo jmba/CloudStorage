@@ -40,7 +40,6 @@
                                 </div>
                             </div>
                         </form>
-                        <!--<div th:text="${chatMessage.username}">Huhu, ich bin die Message!</div>-->
                         <div class="table-responsive">
                             <table class="table table-striped" id="fileTable">
                                 <thead>
@@ -50,17 +49,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="file : ${files}">
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/viewFile/fileName(fileName=${file})}"  target="_blank" class="btn btn-success">View</a>
+                                        <a th:href="@{/deleteFile/fileName(fileName=${file})}"  class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${file}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
                             <div id="statusMessages" th:each="statusMessage : ${statusMessages}">
-                                <span th:text="${chatMessage.username}">Message</span>
+                                <span th:text="${statusMessage}">Message</span>
                             </div>
                         </div>
                     </div>
