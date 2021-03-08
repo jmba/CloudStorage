@@ -11,19 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 public class FilesController {
@@ -40,7 +31,15 @@ public class FilesController {
     @PostMapping("/fileUpload")
     public String uploadFile(@RequestParam("fileUpload") MultipartFile file, Model model, Authentication authentication) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
-        fileService.addFile(file, userId);
+
+        try {
+            fileService.addFile(file, userId);
+            messageService.addMessage("File: " + file.getOriginalFilename() + " successfully uploaded.");
+        } catch (IOException e) {
+            messageService.addMessage("Error while uploading File: " + file.getOriginalFilename());
+            e.printStackTrace();
+        }
+
         model.addAttribute("statusMessages", messageService.getStatusMessages());
         model.addAttribute("files", fileService.getFiles(userId));
         return "home";
@@ -57,19 +56,38 @@ public class FilesController {
     @GetMapping("/deleteFile/{fileName}")
     public String deleteFile(Model model, @RequestParam(name = "fileName", required = false) String fileName, Authentication authentication) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
-        fileService.deleteFile(fileName, userId);
+
+        try {
+            fileService.deleteFile(fileName, userId);
+            messageService.addMessage("File: " + fileName + " successfully deleted.");
+        } catch (Exception e) {
+            messageService.addMessage("Error while deleting File: " + fileName);
+            e.printStackTrace();
+        }
+
         model.addAttribute("statusMessages", messageService.getStatusMessages());
         model.addAttribute("files", fileService.getFiles(userId));
         return "home";
     }
 
     @GetMapping("/viewFile/{fileName}")
-    public ResponseEntity<ByteArrayResource>  viewFile(Model model,
-                                                       HttpServletRequest request,
-                                                       HttpServletResponse response,
-                                                       @RequestParam String fileName,
-                                                       Authentication authentication) throws IOException {
+    public ResponseEntity<ByteArrayResource> viewFile(Model model, @RequestParam String fileName, Authentication authentication) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
+        ResponseEntity<ByteArrayResource> response = null;
+
+        try {
+            response = getResponse(fileName, userId);
+            messageService.addMessage("File: " + fileName + " successfully downloaded.");
+        } catch (Exception e) {
+            messageService.addMessage("Error while downloading File: " + fileName);
+            e.printStackTrace();
+        }
+
+        model.addAttribute("statusMessages", messageService.getStatusMessages());
+        return response;
+    }
+
+    private ResponseEntity<ByteArrayResource> getResponse(String fileName, Integer userId) {
         File file = fileService.getFile(fileName, userId);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getContenttype()))

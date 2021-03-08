@@ -6,17 +6,16 @@ import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageServi
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class FileService {
-    private HashMap<String, File> files;
     private StatusMessageService statusMessageService;
     private FileMapper fileMapper;
 
     public FileService(StatusMessageService statusMessageService, FileMapper fileMapper) {
-        this.files = new HashMap<>();
         this.statusMessageService = statusMessageService;
         this.fileMapper = fileMapper;
     }
@@ -33,22 +32,19 @@ public class FileService {
         fileMapper.deleteFile(fileName, userId);
     }
 
-    public void addFile(MultipartFile file, Integer userId) {
-        try {
-            File filePojo = new File();
-            filePojo.setFiledata(file.getBytes());
-            filePojo.setFilename(file.getOriginalFilename());
-            filePojo.setFilesize(file.getSize());
-            filePojo.setContenttype(file.getContentType());
-            filePojo.setUserid(userId);
-
+    public void addFile(MultipartFile file, Integer userId) throws IOException {
+            File filePojo = getFileObject(file, userId);
             fileMapper.insertFile(filePojo);
+    }
 
-            this.statusMessageService.addMessage("File: " + file.getOriginalFilename() + " successfully uploaded.");
-        } catch (Exception e) {
-            this.statusMessageService.addMessage("Error while uploading File: " + file.getOriginalFilename());
-            e.printStackTrace();
-        }
+    private File getFileObject(MultipartFile multipartFile, Integer userId) throws IOException {
+        File filePojo = new File();
+        filePojo.setFiledata(multipartFile.getBytes());
+        filePojo.setFilename(multipartFile.getOriginalFilename());
+        filePojo.setFilesize(multipartFile.getSize());
+        filePojo.setContenttype(multipartFile.getContentType());
+        filePojo.setUserid(userId);
+        return filePojo;
     }
 }
 

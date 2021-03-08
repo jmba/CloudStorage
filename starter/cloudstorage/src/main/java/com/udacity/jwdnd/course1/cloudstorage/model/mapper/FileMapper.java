@@ -11,7 +11,7 @@ public interface FileMapper {
     List<File> getAllFiles(Integer userid);
 
     @Select("SELECT * from files where filename=#{filename} and userId=#{userid}")
-    File getFileByName(String fileName, Integer userId);
+    File getFileByName(String filename, Integer userid);
 
     @Insert("INSERT into files (fileid, filename, contenttype, filesize, userid, filedata)" +
             "values (#{fileid}, #{filename}, #{contenttype}, #{filesize}, #{userid}, #{filedata})")
@@ -19,5 +19,5 @@ public interface FileMapper {
     int insertFile(File file);
 
     @Delete("DELETE from files where filename=#{filename} and userId=#{userid}")
-    void deleteFile(String fileName, Integer userId);
+    void deleteFile(String filename, Integer userid);
 }
