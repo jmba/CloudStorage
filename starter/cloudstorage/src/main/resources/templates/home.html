@@ -58,9 +58,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div id="statusMessages" th:each="statusMessage : ${statusMessages}">
+                            <div id="statusMessages" th:each="statusMessage : ${statusMessages}" style="color:DodgerBlue">
                                 <span th:text="${statusMessage}">Message</span>
-                            </div>
+                            </div>s
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
@@ -78,9 +78,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr  th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
+                                            <button type="button" th:onclick="javascript:showNoteModal( [[${note.getnoteid()}]],[[${note.getnotetitle()}]],[[${note.getnotedescription()}]] )"> class="btn btn-success">Edit</button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
                                         <th scope="row">Example Note Title</th>
@@ -137,9 +137,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="credential : ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <button type="button" th:onclick="javascript:showCredentialModal( [[${credential.getcredentialid()}]],[[${credential.geturl()}]],[[${credential.getusername()}]] ,[[${credential.getpassword()}]])" class="btn btn-success">Edit</button>
                                         <a class="btn btn-danger">Delete</a>
                                     </td>
                                     <th scope="row">Example Credential URL</th>

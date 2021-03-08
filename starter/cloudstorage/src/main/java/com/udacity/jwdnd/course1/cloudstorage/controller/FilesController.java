@@ -45,7 +45,7 @@ public class FilesController {
         return "home";
     }
 
-    @GetMapping("/fileUpload")
+    @GetMapping("/files")
     public String downloadFile(Model model, Authentication authentication) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
         model.addAttribute("statusMessages", messageService.getStatusMessages());
