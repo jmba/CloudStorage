@@ -51,10 +51,10 @@
                                 <tbody>
                                 <tr th:each="file : ${files}">
                                     <td>
-                                        <a th:href="@{/viewFile/fileName(fileName=${file})}"  target="_blank" class="btn btn-success">View</a>
-                                        <a th:href="@{/deleteFile/fileName(fileName=${file})}"  class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/viewFile/fileName(fileName=${file.filename})}"  target="_blank" class="btn btn-success">View</a>
+                                        <a th:href="@{/deleteFile/fileName(fileName=${file.filename})}"  class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row" th:text="${file}">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${file.filename}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>

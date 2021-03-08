@@ -1,64 +1,73 @@
 package com.udacity.jwdnd.course1.cloudstorage.model.pojos;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class File {
-    private String fileName;
-    private String contentType;
-    private String fileSize;
-    private Integer userId;
+    private String filename;
+    private String contenttype;
+    private long filesize;
+    private Integer userid;
+    private byte[] filedata;
+    private Integer fileid;
 
-    public File(String fileName,
-                String contentType,
-                String fileSize,
-                Integer userId,
-                MultipartFile fileData) {
-        this.fileName = fileName;
-        this.contentType = contentType;
-        this.fileSize = fileSize;
-        this.userId = userId;
-        this.fileData = fileData;
+    public File(){}
+
+    public File(String filename, String contenttype, long filesize, Integer userid, byte[] filedata, Integer fileid) {
+        this.filename = filename;
+        this.contenttype = contenttype;
+        this.filesize = filesize;
+        this.userid = userid;
+        this.filedata = filedata;
+        this.fileid = fileid;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getContenttype() {
+        return contenttype;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setContenttype(String contenttype) {
+        this.contenttype = contenttype;
     }
 
-    public String getFileSize() {
-        return fileSize;
+    public long getFilesize() {
+        return filesize;
     }
 
-    public void setFileSize(String fileSize) {
-        this.fileSize = fileSize;
+    public void setFilesize(long filesize) {
+        this.filesize = filesize;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
-    public MultipartFile getFileData() {
-        return fileData;
+    public byte[] getFiledata() {
+        return filedata;
     }
 
-    public void setFileData(MultipartFile fileData) {
-        this.fileData = fileData;
+    public void setFiledata(byte[] filedata) {
+        this.filedata = filedata;
     }
 
-    private MultipartFile fileData;
+    public Integer getFileid() {
+        return fileid;
+    }
+
+    public void setFileid(Integer fileid) {
+        this.fileid = fileid;
+    }
+
+
+
+
 }
