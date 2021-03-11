@@ -1,13 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.services.files;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.mapper.FileMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.pojos.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -20,11 +19,11 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public List<File> getFiles(Integer userId) {
+    public List<FileForm> getFiles(Integer userId) {
         return fileMapper.getAllFiles(userId);
     }
 
-    public File getFile(String fileName, Integer userID) {
+    public FileForm getFile(String fileName, Integer userID) {
         return fileMapper.getFileByName(fileName, userID);
     }
 
@@ -33,18 +32,18 @@ public class FileService {
     }
 
     public void addFile(MultipartFile file, Integer userId) throws IOException {
-            File filePojo = getFileObject(file, userId);
-            fileMapper.insertFile(filePojo);
+            FileForm fileFormPojo = getFileObject(file, userId);
+            fileMapper.insertFile(fileFormPojo);
     }
 
-    private File getFileObject(MultipartFile multipartFile, Integer userId) throws IOException {
-        File filePojo = new File();
-        filePojo.setFiledata(multipartFile.getBytes());
-        filePojo.setFilename(multipartFile.getOriginalFilename());
-        filePojo.setFilesize(multipartFile.getSize());
-        filePojo.setContenttype(multipartFile.getContentType());
-        filePojo.setUserid(userId);
-        return filePojo;
+    private FileForm getFileObject(MultipartFile multipartFile, Integer userId) throws IOException {
+        FileForm fileFormPojo = new FileForm();
+        fileFormPojo.setFiledata(multipartFile.getBytes());
+        fileFormPojo.setFilename(multipartFile.getOriginalFilename());
+        fileFormPojo.setFilesize(multipartFile.getSize());
+        fileFormPojo.setContenttype(multipartFile.getContentType());
+        fileFormPojo.setUserid(userId);
+        return fileFormPojo;
     }
 }
 

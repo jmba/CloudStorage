@@ -1,23 +1,56 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.pojos.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.services.authentication.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.notes.NotesService;
+import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.FILES;
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.NOTES;
 
 @Controller
 public class NotesController {
-    @GetMapping("/notes")
-    public String getNodes(Model model){
+    private StatusMessageService messageService;
+    private NotesService notesService;
+    private UserService userService;
 
+    public NotesController(StatusMessageService messageService, NotesService notesService, UserService userService) {
+        this.messageService = messageService;
+        this.notesService = notesService;
+        this.userService = userService;
+    }
+
+    @GetMapping("/notes")
+    public String getNodes(Model model, Authentication authentication, @ModelAttribute("noteForm") NoteForm noteForm){
+        Integer userId = userService.getUser(authentication.getName()).getUserId();
+        model.addAttribute("notes", this.notesService.getNotes(userId));
         return "home";
     }
 
     @PostMapping("/addNote")
-    public String addNote(Model model){
-        return "home";
+    public String addNote(@ModelAttribute("noteForm") NoteForm noteForm, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
+        Integer userId = userService.getUser(authentication.getName()).getUserId();
+
+        try {
+            notesService.addNote(noteForm.getNoteid(), noteForm.getUserid(),  noteForm.getNotetitle(), noteForm.getNotedescription());
+            messageService.addMessage(NOTES, "NoteForm: " + noteForm.getNotetitle() + " successfully created.");
+        } catch (IOException e) {
+            messageService.addMessage(NOTES, "Error while creating FileForm: " + noteForm.getNotetitle());
+            e.printStackTrace();
+        }
+
+        model.addAttribute("statusMessages", messageService.getStatusMessages(NOTES));
+        model.addAttribute("files", notesService.getNotes(userId));
+
+        redirectAttributes.addFlashAttribute("setTab", "NoteTab");
+
+        return "redirect:/home";
     }
 }

@@ -18,13 +18,25 @@
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
-                        <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false">Notes</a>
-                        <a class="nav-item nav-link" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="false">Credentials</a>
+                        <a id="nav-files-tab" data-toggle="tab" href="#nav-files" role="tab"
+                           aria-controls="nav-files" aria-selected="true"
+                           th:class="'nav-item nav-link '+ ${(setTab == 'FileTab' || setTab == '') ? 'active' : ''}">
+                            Files
+                        </a>
+                        <a id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab"
+                           aria-controls="nav-notes" aria-selected="false"
+                           th:class="'nav-item nav-link '+ ${setTab == 'NoteTab' ? 'active' : ''}">Notes</a>
+                        <a id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials"
+                           role="tab" aria-controls="nav-credentials" aria-selected="false"
+                           th:class="'nav-item nav-link '+ ${setTab == 'CredentialTab' ? 'active' : ''}">Credentials</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
+                    <div class="tab-pane fade show active"
+                         id="nav-files"
+                         role="tabpanel"
+                         aria-labelledby="nav-files-tab"
+                         th:class="'tab-pane fade '+ ${(setTab == 'FileTab' || setTab == '') ? 'show active' : ''}">
                         <form id="fileUploadForm" th:object="${fileUploadForm}" action="#" th:action="@{/fileUpload}"  enctype="multipart/form-data" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
@@ -49,21 +61,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="file : ${files}">
+                                <tr th:each="fileForm : ${files}">
                                     <td>
-                                        <a th:href="@{/viewFile/fileName(fileName=${file.filename})}"  target="_blank" class="btn btn-success">View</a>
-                                        <a th:href="@{/deleteFile/fileName(fileName=${file.filename})}"  class="btn btn-danger">Delete</a>
+                                        <a th:href="@{/viewFile/fileName(fileName=${fileForm.filename})}"  target="_blank" class="btn btn-success">View</a>
+                                        <a th:href="@{/deleteFile/fileName(fileName=${fileForm.filename})}"  class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row" th:text="${file.filename}">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${fileForm.filename}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
                             <div id="statusMessages" th:each="statusMessage : ${statusMessages}" style="color:DodgerBlue">
                                 <span th:text="${statusMessage}">Message</span>
-                            </div>s
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                    <div id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab"
+                         th:class="'tab-pane fade '+ ${setTab == 'NoteTab' ? 'show active' : ''}">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
@@ -80,7 +93,7 @@
                                 <tbody>
                                     <tr  th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" th:onclick="javascript:showNoteModal( [[${note.getnoteid()}]],[[${note.getnotetitle()}]],[[${note.getnotedescription()}]] )"> class="btn btn-success">Edit</button>
+                                            <button type="button" th:onclick="javascript:showNoteModal( [[${noteForm.getnoteid()}]],[[${noteForm.getnotetitle()}]],[[${noteForm.getnotedescription()}]] )"> class="btn btn-success">Edit</button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
                                         <th scope="row">Example Note Title</th>
@@ -100,17 +113,17 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="noteId" id="note-id">
+                                        <form th:action="@{/addNote}" th:object="${noteForm}" method="POST" action="#">
+                                            <input th:field="*{noteid}" type="hidden" name="noteId" id="noteForm-id" >
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Title</label>
-                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <label for="noteForm-title" class="col-form-label">Title</label>
+                                                <input th:field="*{notetitle}" type="text" name= "noteTitle" class="form-control" id="noteForm-title"  maxlength="20" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <label for="noteForm-description" class="col-form-label">Description</label>
+                                                <textarea th:field="*{notedescription}" class="form-control" name="noteDescription" id="noteForm-description" rows="5" maxlength="1000" required></textarea>
                                             </div>
-                                            <button id="noteSubmit" type="submit" class="d-none"></button>
+                                            <button id="noteSubmit"  type="submit" class="d-none"></button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -121,7 +134,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
+                    <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab"
+                         th:class="'tab-pane fade '+ ${setTab == 'CredentialTab' ? 'show active' : ''}">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
@@ -163,15 +177,15 @@
                                         <form action="#" method="POST">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">URL</label>
+                                                <label for="noteForm-title" class="col-form-label">URL</label>
                                                 <input type="text" name= "url" class="form-control" id="credential-url" maxlength="100" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Username</label>
+                                                <label for="noteForm-title" class="col-form-label">Username</label>
                                                 <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Password</label>
+                                                <label for="noteForm-title" class="col-form-label">Password</label>
                                                 <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
@@ -193,13 +207,13 @@
         <script th:src="@{/js/popper.min.js}"></script>
         <script th:src="@{/js/bootstrap.min.js}"></script>
 
-        <!--For opening the note modal-->
+        <!--For opening the noteForm modal-->
         <script type="text/javascript">
-            // For opening the note modal
+            // For opening the noteForm modal
             function showNoteModal(noteId, noteTitle, noteDescription) {
-                $('#note-id').val(noteId ? noteId : '');
-                $('#note-title').val(noteTitle ? noteTitle : '');
-                $('#note-description').val(noteDescription ? noteDescription : '');
+                $('#noteForm-id').val(noteId ? noteId : '');
+                $('#noteForm-title').val(noteTitle ? noteTitle : '');
+                $('#noteForm-description').val(noteDescription ? noteDescription : '');
                 $('#noteModal').modal('show');
             }
 

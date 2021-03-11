@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.model.pojos;
 
-public class File {
+public class FileForm {
     private String filename;
     private String contenttype;
     private long filesize;
@@ -8,9 +8,9 @@ public class File {
     private byte[] filedata;
     private Integer fileid;
 
-    public File(){}
+    public FileForm(){}
 
-    public File(String filename, String contenttype, long filesize, Integer userid, byte[] filedata, Integer fileid) {
+    public FileForm(String filename, String contenttype, long filesize, Integer userid, byte[] filedata, Integer fileid) {
         this.filename = filename;
         this.contenttype = contenttype;
         this.filesize = filesize;

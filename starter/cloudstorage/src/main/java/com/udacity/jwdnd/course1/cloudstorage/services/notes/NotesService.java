@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services.notes;
 import com.udacity.jwdnd.course1.cloudstorage.model.mapper.NotesMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.Note;
+import com.udacity.jwdnd.course1.cloudstorage.model.pojos.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class NotesService {
         this.notesMapper = notesMapper;
     }
 
-    public List<Note> getNotes(Integer userId) {
+    public List<NoteForm> getNotes(Integer userId) {
         return notesMapper.getAllNotes(userId);
     }
 
@@ -26,16 +26,16 @@ public class NotesService {
     }
 
     public void addNote(Integer noteId, Integer userId, String noteTitle, String noteDescription) throws IOException {
-        Note notePojo = getNoteObject(noteId, userId, noteTitle, noteDescription);
-        notesMapper.insertNote(notePojo);
+        NoteForm noteFormPojo = getNoteObject(noteId, userId, noteTitle, noteDescription);
+        notesMapper.insertNote(noteFormPojo);
     }
 
-    private Note getNoteObject(Integer noteId, Integer userId, String noteTitle, String noteDescription) throws IOException {
-        Note note = new Note();
-        note.setNoteid(noteId);
-        note.setUserid(userId);
-        note.setNotetitle(noteTitle);
-        note.setNotedescription(noteDescription);
-        return note;
+    private NoteForm getNoteObject(Integer noteId, Integer userId, String noteTitle, String noteDescription) throws IOException {
+        NoteForm noteForm = new NoteForm();
+        noteForm.setNoteid(noteId);
+        noteForm.setUserid(userId);
+        noteForm.setNotetitle(noteTitle);
+        noteForm.setNotedescription(noteDescription);
+        return noteForm;
     }
 }

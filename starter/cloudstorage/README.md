@@ -66,7 +66,7 @@ The home page is the center of the application and hosts the three required piec
   - The user should be able to upload files and see any files they previously uploaded. 
 
   - The user should be able to view/download or delete previously-uploaded files.
-  - Any errors related to file actions should be displayed. For example, a user should not be able to upload two files with the same name, but they'll never know unless you tell them!
+  - Any errors related to fileForm actions should be displayed. For example, a user should not be able to upload two files with the same name, but they'll never know unless you tell them!
 
 
  ii. Notes
@@ -87,10 +87,10 @@ Your tech lead trusts you to do a good job, but testing is important whether you
  - Write a test that signs up a new user, logs in, verifies that the home page is accessible, logs out, and verifies that the home page is no longer accessible. 
 
 
-2. Write tests for note creation, viewing, editing, and deletion.
- - Write a test that creates a note, and verifies it is displayed.
- - Write a test that edits an existing note and verifies that the changes are displayed.
- - Write a test that deletes a note and verifies that the note is no longer displayed.
+2. Write tests for noteForm creation, viewing, editing, and deletion.
+ - Write a test that creates a noteForm, and verifies it is displayed.
+ - Write a test that edits an existing noteForm and verifies that the changes are displayed.
+ - Write a test that deletes a noteForm and verifies that the noteForm is no longer displayed.
 
 
 3. Write tests for credential creation, viewing, editing, and deletion.
