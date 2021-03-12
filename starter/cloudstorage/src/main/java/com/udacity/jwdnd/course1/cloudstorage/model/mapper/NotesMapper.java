@@ -9,13 +9,17 @@ public interface NotesMapper {
     @Select("SELECT * FROM NOTES WHERE userid=#{userid}")
     List<NoteForm> getAllNotes(Integer userid);
 
-//    @Select("SELECT * FROM NOTES WHERE filename=#{filename} AND userId=#{userid}")
-//    FileForm getFileByName(String filename, Integer userid);
+    @Select("SELECT * FROM NOTES WHERE noteid=#{noteid}")
+    NoteForm getNote(Integer noteid);
 
     @Insert("INSERT INTO NOTES (noteid, notetitle, notedescription, userid)" +
             "values (#{noteid}, #{notetitle}, #{notedescription}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
     int insertNote(NoteForm noteForm);
+
+    @Update("UPDATE notes set notetitle=#{notetitle}, notedescription=#{notedescription} " +
+            "where noteid=#{noteid}")
+    int updateNote(NoteForm noteForm);
 
     @Delete("DELETE FROM NOTES WHERE noteid=#{noteid}")
     void deleteNote(Integer noteid);
