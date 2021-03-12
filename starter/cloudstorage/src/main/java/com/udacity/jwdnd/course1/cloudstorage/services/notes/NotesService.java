@@ -21,8 +21,8 @@ public class NotesService {
         return notesMapper.getAllNotes(userId);
     }
 
-    public void deleteNote(Integer noteId, Integer userId) {
-        notesMapper.deleteNote(noteId, userId);
+    public void deleteNote(Integer noteId) {
+        notesMapper.deleteNote(noteId);
     }
 
     public void addNote(Integer noteId, Integer userId, String noteTitle, String noteDescription) throws IOException {

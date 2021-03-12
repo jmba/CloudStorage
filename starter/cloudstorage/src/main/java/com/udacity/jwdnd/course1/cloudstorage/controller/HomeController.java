@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.FILES;
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.NOTES;
 
 @Controller
 @RequestMapping("/home")
@@ -43,8 +44,9 @@ public class HomeController {
                            @ModelAttribute("noteForm") NoteForm noteForm,
                            @ModelAttribute("setTab") String setTab){
         Integer userId = userService.getUser(authentication.getName()).getUserId();
-        model.addAttribute("statusMessages", messageService.getStatusMessages(FILES));
+        model.addAttribute("statusMessagesFiles", messageService.getStatusMessages(FILES));
         model.addAttribute("files", fileService.getFiles(userId));
+        model.addAttribute("statusMessagesNotes", messageService.getStatusMessages(NOTES));
         model.addAttribute("notes", notesService.getNotes(userId));
         model.addAttribute("setTab", setTab);
         return "home";

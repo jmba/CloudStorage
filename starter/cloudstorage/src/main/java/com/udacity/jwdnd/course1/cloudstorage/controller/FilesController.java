@@ -62,8 +62,6 @@ public class FilesController {
             e.printStackTrace();
         }
 
-        model.addAttribute("statusMessages", messageService.getStatusMessages(FILES));
-        model.addAttribute("files", fileService.getFiles(userId));
         redirectAttributes.addFlashAttribute("setTab", "FileTab");
         return "redirect:/home";
     }
@@ -84,7 +82,7 @@ public class FilesController {
             e.printStackTrace();
         }
 
-        model.addAttribute("statusMessages", messageService.getStatusMessages(FILES));
+        model.addAttribute("statusMessagesFiles", messageService.getStatusMessages(FILES));
         redirectAttributes.addFlashAttribute("setTab", "FileTab");
         return response;
     }
