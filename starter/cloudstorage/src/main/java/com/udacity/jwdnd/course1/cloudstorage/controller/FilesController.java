@@ -30,17 +30,14 @@ public class FilesController {
     }
 
     @PostMapping("/fileUpload")
-    public String uploadFile(@RequestParam("fileUpload") MultipartFile file,
-                             Model model,
-                             Authentication authentication) {
-
+    public String uploadFile(@RequestParam("fileUpload") MultipartFile file, Authentication authentication) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
 
         try {
             fileService.addFile(file, userId);
-            messageService.addMessage(FILES, "FileForm: " + file.getOriginalFilename() + " successfully uploaded.");
+            messageService.addMessage(FILES, "File successfully uploaded.");
         } catch (IOException e) {
-            messageService.addMessage(FILES, "Error while uploading FileForm: " + file.getOriginalFilename());
+            messageService.addMessage(FILES, "Error while uploading File: " + file.getOriginalFilename());
             e.printStackTrace();
         }
 
@@ -48,17 +45,14 @@ public class FilesController {
     }
 
     @GetMapping("/deleteFile/{fileName}")
-    public String deleteFile(Model model,
-                             @RequestParam(name = "fileName", required = false) String fileName,
-                             Authentication authentication,
-                             RedirectAttributes redirectAttributes) {
+    public String deleteFile(@RequestParam String fileName, Authentication authentication, RedirectAttributes redirectAttributes) {
         Integer userId = userService.getUser(authentication.getName()).getUserId();
 
         try {
             fileService.deleteFile(fileName, userId);
-            messageService.addMessage(FILES, "FileForm: " + fileName + " successfully deleted.");
+            messageService.addMessage(FILES, "File deleted");
         } catch (Exception e) {
-            messageService.addMessage(FILES, "Error while deleting FileForm: " + fileName);
+            messageService.addMessage(FILES, "Error while deleting File: " + fileName);
             e.printStackTrace();
         }
 
@@ -76,7 +70,7 @@ public class FilesController {
 
         try {
             response = getResponse(fileName, userId);
-            messageService.addMessage(FILES, "FileForm: " + fileName + " successfully downloaded.");
+            messageService.addMessage(FILES, "File downloaded");
         } catch (Exception e) {
             messageService.addMessage(FILES, "Error while downloading FileForm: " + fileName);
             e.printStackTrace();

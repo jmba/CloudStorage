@@ -6,7 +6,6 @@ import com.udacity.jwdnd.course1.cloudstorage.services.notes.NotesService;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,13 +23,6 @@ public class NotesController {
         this.userService = userService;
     }
 
-    @GetMapping("/notes")
-    public String getNodes(Model model, Authentication authentication, @ModelAttribute("noteForm") NoteForm noteForm){
-        Integer userId = userService.getUser(authentication.getName()).getUserId();
-        model.addAttribute("notes", this.notesService.getNotes(userId));
-        return "home";
-    }
-
     @GetMapping("/deleteNote/{noteid}")
     public String deleteNote(@PathVariable("noteid") Integer noteid, RedirectAttributes redirectAttributes){
         try {
@@ -44,7 +36,6 @@ public class NotesController {
         redirectAttributes.addFlashAttribute("setTab", "NoteTab");
         return "redirect:/home";
     }
-
 
     @PostMapping("/addNote")
     public String addNote(@ModelAttribute("noteForm") NoteForm noteForm, Authentication authentication, RedirectAttributes redirectAttributes){
