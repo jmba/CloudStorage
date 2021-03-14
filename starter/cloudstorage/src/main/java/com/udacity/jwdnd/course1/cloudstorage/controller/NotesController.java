@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.entities.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.authentication.UserService;
 import com.udacity.jwdnd.course1.cloudstorage.services.notes.NotesService;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
@@ -27,9 +27,9 @@ public class NotesController {
     public String deleteNote(@PathVariable("noteid") Integer noteid, RedirectAttributes redirectAttributes){
         try {
             notesService.deleteNote(noteid);
-            messageService.addMessage(NOTES, "Note deleted");
+            messageService.addMessage(NOTES, "Note deleted.");
         } catch (Exception e) {
-            messageService.addMessage(NOTES, "Error while deleting Note");
+            messageService.addMessage(NOTES, "Error while deleting Note.");
             e.printStackTrace();
         }
 
@@ -54,7 +54,7 @@ public class NotesController {
     private void createNote(NoteForm noteForm, Integer userId){
         try {
             notesService.addNote(null, userId,  noteForm.getNotetitle(), noteForm.getNotedescription());
-            messageService.addMessage(NOTES, "Note created");
+            messageService.addMessage(NOTES, "Note created.");
         } catch (Exception e) {
             messageService.addMessage(NOTES, "Error while creating note: " + noteForm.getNotetitle());
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class NotesController {
             existingNote.setNotetitle(newData.getNotetitle());
             existingNote.setNotedescription(newData.getNotedescription());
             notesService.updateNote(existingNote);
-            messageService.addMessage(NOTES, "Note updated");
+            messageService.addMessage(NOTES, "Note updated.");
         } catch (Exception e) {
             messageService.addMessage(NOTES, "Error while updating note: " + newData.getNotetitle());
             e.printStackTrace();

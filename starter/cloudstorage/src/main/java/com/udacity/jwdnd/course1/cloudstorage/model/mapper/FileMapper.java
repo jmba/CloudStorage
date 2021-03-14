@@ -1,6 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.model.mapper;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.FileForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.entities.FileForm;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

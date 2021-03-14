@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services.notes;
+
+import com.udacity.jwdnd.course1.cloudstorage.model.entities.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.mapper.NotesMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class NotesService {
         notesMapper.deleteNote(noteId);
     }
 
-    public void updateNote(NoteForm note){
+    public void updateNote(NoteForm note) {
         notesMapper.updateNote(note);
     }
 

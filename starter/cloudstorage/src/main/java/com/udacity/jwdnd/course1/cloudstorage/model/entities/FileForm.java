@@ -1,4 +1,4 @@
-package com.udacity.jwdnd.course1.cloudstorage.model.pojos;
+package com.udacity.jwdnd.course1.cloudstorage.model.entities;
 
 public class FileForm {
     private String filename;
@@ -8,7 +8,8 @@ public class FileForm {
     private byte[] filedata;
     private Integer fileid;
 
-    public FileForm(){}
+    public FileForm() {
+    }
 
     public FileForm(String filename, String contenttype, long filesize, Integer userid, byte[] filedata, Integer fileid) {
         this.filename = filename;
@@ -66,8 +67,6 @@ public class FileForm {
     public void setFileid(Integer fileid) {
         this.fileid = fileid;
     }
-
-
 
 
 }

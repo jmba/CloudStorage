@@ -1,6 +1,6 @@
-package com.udacity.jwdnd.course1.cloudstorage.model.pojos;
+package com.udacity.jwdnd.course1.cloudstorage.model.entities;
 
-public class Credentials {
+public class CredentialForm {
     private Integer credentialid;
     private String url;
     private String username;
@@ -8,7 +8,10 @@ public class Credentials {
     private String password;
     private Integer userid;
 
-    public Credentials(Integer credentialid, String url, String username, String key, String password, Integer userid) {
+    public CredentialForm() {
+    }
+
+    public CredentialForm(Integer credentialid, String url, String username, String key, String password, Integer userid) {
         this.credentialid = credentialid;
         this.url = url;
         this.username = username;
@@ -18,7 +21,7 @@ public class Credentials {
     }
 
     public Integer getCredentialid() {
-        return credentialid;
+        return this.credentialid;
     }
 
     public void setCredentialid(Integer credentialid) {

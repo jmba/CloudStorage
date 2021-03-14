@@ -1,4 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.services.shared;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,13 +12,13 @@ public class StatusMessageService {
         NOTES, FILES, CREDENTIALS
     }
 
-    private HashMap<MessageType, List<String>> statusMessages;
+    private final HashMap<MessageType, List<String>> statusMessages;
 
     public StatusMessageService() {
         this.statusMessages = new HashMap<>();
         this.statusMessages.put(MessageType.NOTES, new ArrayList<>());
         this.statusMessages.put(MessageType.FILES, new ArrayList<>());
-        this.statusMessages.put(MessageType.FILES, new ArrayList<>());
+        this.statusMessages.put(MessageType.CREDENTIALS, new ArrayList<>());
     }
 
     public void addMessage(MessageType type, String message) {

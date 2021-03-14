@@ -1,7 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services.files;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.entities.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.mapper.FileMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.pojos.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,8 +32,8 @@ public class FileService {
     }
 
     public void addFile(MultipartFile file, Integer userId) throws IOException {
-            FileForm fileFormPojo = getFileObject(file, userId);
-            fileMapper.insertFile(fileFormPojo);
+        FileForm fileFormPojo = getFileObject(file, userId);
+        fileMapper.insertFile(fileFormPojo);
     }
 
     private FileForm getFileObject(MultipartFile multipartFile, Integer userId) throws IOException {
