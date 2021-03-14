@@ -58,9 +58,4 @@ public class HomeController {
         return "home";
     }
 
-    @ModelAttribute("statusMessages")
-    public String[] allMessageTypes () {
-        return new String[] { "Say", "Shout", "Whisper" };
-    }
-
 }
