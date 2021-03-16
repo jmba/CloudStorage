@@ -35,7 +35,6 @@ class CloudStorageApplicationTests {
     static void beforeAll() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        navigate("/signup");
         signupPage = new SignupPage(driver);
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
@@ -72,8 +71,8 @@ class CloudStorageApplicationTests {
     public void signUpLoginLogoutTest() {
         navigate("/signup");
         signupPage.signUp(TESTFIRSTNAME, TESTLASTNAME, TESTUSERNAME, TESTPASSWORD);
-        assertEquals(signupPage.getSuccessMessage().getText(), "You successfully signed up! Please continue to the login page.");
-        assertThrows(NoSuchElementException.class, () -> signupPage.getErrorMessage().getText());
+        assertEquals(loginPage.getSuccessMessage().getText(), "You successfully signed up!");
+        navigate("/signup");
         signupPage.signUp(TESTFIRSTNAME, TESTLASTNAME, TESTUSERNAME, TESTPASSWORD);
         assertEquals(signupPage.getErrorMessage().getText(), "The username already exists.");
         assertThrows(NoSuchElementException.class, () -> signupPage.getSuccessMessage().getText());
