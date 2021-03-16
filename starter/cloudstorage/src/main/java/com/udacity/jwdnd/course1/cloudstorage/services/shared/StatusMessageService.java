@@ -9,16 +9,15 @@ import java.util.List;
 @Service
 public class StatusMessageService {
     public enum MessageType {
-        NOTES, FILES, CREDENTIALS
+        SUCCESS, ERROR
     }
 
     private final HashMap<MessageType, List<String>> statusMessages;
 
     public StatusMessageService() {
         this.statusMessages = new HashMap<>();
-        this.statusMessages.put(MessageType.NOTES, new ArrayList<>());
-        this.statusMessages.put(MessageType.FILES, new ArrayList<>());
-        this.statusMessages.put(MessageType.CREDENTIALS, new ArrayList<>());
+        this.statusMessages.put(MessageType.SUCCESS, new ArrayList<>());
+        this.statusMessages.put(MessageType.ERROR, new ArrayList<>());
     }
 
     public void addMessage(MessageType type, String message) {
@@ -26,6 +25,8 @@ public class StatusMessageService {
     }
 
     public List<String> getStatusMessages(MessageType type) {
-        return statusMessages.get(type);
+        List<String> returnList = new ArrayList<>(statusMessages.get(type));
+        this.statusMessages.put(type, new ArrayList<>());
+        return returnList;
     }
 }

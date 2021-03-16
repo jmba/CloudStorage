@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
-import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.FILES;
+
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.*;
 
 @Controller
 public class FilesController {
@@ -36,19 +37,19 @@ public class FilesController {
 
         try {
             if(StringUtils.isEmpty(file.getOriginalFilename())){
-                messageService.addMessage(FILES, "Choose a file you want to upload.");
+                messageService.addMessage(ERROR, "Choose a file you want to upload.");
                 return "redirect:/home";
             }
 
             if(fileService.getFile(file.getOriginalFilename(), userId) != null){
-                messageService.addMessage(FILES, "File already exists.");
+                messageService.addMessage(ERROR, "File already exists.");
                 return "redirect:/home";
             }
 
             fileService.addFile(file, userId);
-            messageService.addMessage(FILES, "File successfully uploaded.");
+            messageService.addMessage(SUCCESS, "File successfully uploaded.");
         } catch (IOException e) {
-            messageService.addMessage(FILES, "Error while uploading File: " + file.getOriginalFilename());
+            messageService.addMessage(ERROR, "Error while uploading File: " + file.getOriginalFilename());
             e.printStackTrace();
         }
 
@@ -61,9 +62,9 @@ public class FilesController {
 
         try {
             fileService.deleteFile(fileName, userId);
-            messageService.addMessage(FILES, "File deleted");
+            messageService.addMessage(SUCCESS, "File deleted");
         } catch (Exception e) {
-            messageService.addMessage(FILES, "Error while deleting File: " + fileName);
+            messageService.addMessage(ERROR, "Error while deleting File: " + fileName);
             e.printStackTrace();
         }
 
@@ -81,13 +82,14 @@ public class FilesController {
 
         try {
             response = getResponse(fileName, userId);
-            messageService.addMessage(FILES, "File downloaded");
+            messageService.addMessage(SUCCESS, "File downloaded");
         } catch (Exception e) {
-            messageService.addMessage(FILES, "Error while downloading FileForm: " + fileName);
+            messageService.addMessage(ERROR, "Error while downloading FileForm: " + fileName);
             e.printStackTrace();
         }
 
-        model.addAttribute("statusMessagesFiles", messageService.getStatusMessages(FILES));
+        model.addAttribute("statusErrorMessagesFiles", messageService.getStatusMessages(SUCCESS));
+        model.addAttribute("statusErrorMessagesFiles", messageService.getStatusMessages(ERROR));
         redirectAttributes.addFlashAttribute("setTab", "FileTab");
         return response;
     }

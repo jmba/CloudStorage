@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.CREDENTIALS;
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.*;
 
 @Controller
 public class CredentialsController {
@@ -33,9 +33,9 @@ public class CredentialsController {
     public String deleteCredentials(@PathVariable("credentialid") Integer credentialid, RedirectAttributes redirectAttributes) {
         try {
             credentialsService.deleteCredentials(credentialid);
-            messageService.addMessage(CREDENTIALS, "Credentials deleted.");
+            messageService.addMessage(SUCCESS, "Credentials deleted.");
         } catch (Exception e) {
-            messageService.addMessage(CREDENTIALS, "Error while deleting credentials.");
+            messageService.addMessage(ERROR, "Error while deleting credentials.");
             e.printStackTrace();
         }
 
@@ -66,9 +66,9 @@ public class CredentialsController {
                     credentialForm.getPassword(),
                     credentialForm.getUrl(),
                     userId);
-            messageService.addMessage(CREDENTIALS, "Credentials created.");
+            messageService.addMessage(SUCCESS, "Credentials created.");
         } catch (Exception e) {
-            messageService.addMessage(CREDENTIALS, "Error while creating credentials.");
+            messageService.addMessage(ERROR, "Error while creating credentials.");
             e.printStackTrace();
         }
     }
@@ -79,9 +79,9 @@ public class CredentialsController {
                     newCredentials.getUsername(),
                     newCredentials.getPassword(),
                     newCredentials.getUrl());
-            messageService.addMessage(CREDENTIALS, "Credentials updated.");
+            messageService.addMessage(SUCCESS, "Credentials updated.");
         } catch (Exception e) {
-            messageService.addMessage(CREDENTIALS, "Error while updating credentials.");
+            messageService.addMessage(ERROR, "Error while updating credentials.");
             e.printStackTrace();
         }
     }

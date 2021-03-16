@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.NOTES;
+import static com.udacity.jwdnd.course1.cloudstorage.services.shared.StatusMessageService.MessageType.*;
 
 @Controller
 public class NotesController {
@@ -27,9 +27,9 @@ public class NotesController {
     public String deleteNote(@PathVariable("noteid") Integer noteid, RedirectAttributes redirectAttributes){
         try {
             notesService.deleteNote(noteid);
-            messageService.addMessage(NOTES, "Note deleted.");
+            messageService.addMessage(SUCCESS, "Note deleted.");
         } catch (Exception e) {
-            messageService.addMessage(NOTES, "Error while deleting Note.");
+            messageService.addMessage(ERROR, "Error while deleting Note.");
             e.printStackTrace();
         }
 
@@ -54,9 +54,9 @@ public class NotesController {
     private void createNote(NoteForm noteForm, Integer userId){
         try {
             notesService.addNote(null, userId,  noteForm.getNotetitle(), noteForm.getNotedescription());
-            messageService.addMessage(NOTES, "Note created.");
+            messageService.addMessage(SUCCESS, "Note created.");
         } catch (Exception e) {
-            messageService.addMessage(NOTES, "Error while creating note: " + noteForm.getNotetitle());
+            messageService.addMessage(ERROR, "Error while creating note: " + noteForm.getNotetitle());
             e.printStackTrace();
         }
     }
@@ -66,9 +66,9 @@ public class NotesController {
             existingNote.setNotetitle(newData.getNotetitle());
             existingNote.setNotedescription(newData.getNotedescription());
             notesService.updateNote(existingNote);
-            messageService.addMessage(NOTES, "Note updated.");
+            messageService.addMessage(SUCCESS, "Note updated.");
         } catch (Exception e) {
-            messageService.addMessage(NOTES, "Error while updating note: " + newData.getNotetitle());
+            messageService.addMessage(ERROR, "Error while updating note: " + newData.getNotetitle());
             e.printStackTrace();
         }
     }

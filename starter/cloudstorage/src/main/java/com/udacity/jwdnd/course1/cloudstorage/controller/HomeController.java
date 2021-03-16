@@ -47,13 +47,12 @@ public class HomeController {
                            @ModelAttribute("noteForm") NoteForm noteForm,
                            @ModelAttribute("setTab") String setTab){
         Integer userId = userService.getUser(authentication.getName()).getUserId();
-        model.addAttribute("statusMessagesFiles", messageService.getStatusMessages(FILES));
         model.addAttribute("files", fileService.getFiles(userId));
-        model.addAttribute("statusMessagesNotes", messageService.getStatusMessages(NOTES));
         model.addAttribute("notes", notesService.getNotes(userId));
         model.addAttribute("credentials", credentialsService.getAllCredentials(userId));
-        model.addAttribute("statusMessagesCredentials", messageService.getStatusMessages(CREDENTIALS));
         model.addAttribute("encryptionService", encryptionService);
+        model.addAttribute("statusMessagesSuccess", messageService.getStatusMessages(SUCCESS));
+        model.addAttribute("statusMessagesError", messageService.getStatusMessages(ERROR));
         model.addAttribute("setTab", setTab);
         return "home";
     }
