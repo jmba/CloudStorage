@@ -70,9 +70,14 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div id="statusMessagesFiles" th:each="statusMessageFiles : ${statusMessagesFiles}" style="color:DodgerBlue">
-                                <span th:text="${statusMessageFiles}">Message</span>
+
+                            <div id="statusMessageSuccessFile" th:each="statusMessageSuccess : ${statusMessagesSuccess}" class="alert alert-success fill-parent">
+                                <span th:text="${statusMessageSuccess}">Message</span>
                             </div>
+                            <div id="statusMessageErrorFile" th:each="statusMessageError : ${statusMessagesError}" class="alert alert-danger">
+                                <span th:text="${statusMessageError}">Message</span>
+                            </div>
+
                         </div>
                     </div>
                     <div id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab"
@@ -104,8 +109,11 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div id="statusMessagesNotes" th:each="statusMessageNotes : ${statusMessagesNotes}" style="color:DodgerBlue">
-                                <span th:text="${statusMessageNotes}">Message</span>
+                            <div id="statusMessageSuccessNote" th:each="statusMessageSuccess : ${statusMessagesSuccess}" class="alert alert-success fill-parent">
+                                <span th:text="${statusMessageSuccess}">Message</span>
+                            </div>
+                            <div id="statusMessageErrorNote" th:each="statusMessageError : ${statusMessagesError}" class="alert alert-danger">
+                                <span th:text="${statusMessageError}">Message</span>
                             </div>
                         </div>
                         <!-- NOTES MODAL -->
@@ -169,8 +177,11 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div id="statusMessagesCredentials" th:each="message : ${statusMessagesCredentials}" style="color:DodgerBlue">
-                                <span th:text="${message}">Message</span>
+                            <div id="statusMessageSuccessCredentials" th:each="statusMessageSuccess : ${statusMessagesSuccess}" class="alert alert-success fill-parent">
+                                <span th:text="${statusMessageSuccess}">Message</span>
+                            </div>
+                            <div id="statusMessageErrorCredentials" th:each="statusMessageError : ${statusMessagesError}" class="alert alert-danger">
+                                <span th:text="${statusMessageError}">Message</span>
                             </div>
                         </div>
 
@@ -214,12 +225,16 @@
             </div>
         </div>
 
-        <script th:src="@{/js/jquery-slim.min.js}"></script>
+        <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
         <script th:src="@{/js/popper.min.js}"></script>
         <script th:src="@{/js/bootstrap.min.js}"></script>
 
         <!--For opening the noteForm modal-->
         <script type="text/javascript">
+            $('.alert').ready(function() {
+               $('.alert').fadeOut(5000)
+            });
+
             // For opening the note modal
             function showNoteModal(noteId, noteTitle, noteDescription) {
                 $('#note-id').val(noteId ? noteId : '');
