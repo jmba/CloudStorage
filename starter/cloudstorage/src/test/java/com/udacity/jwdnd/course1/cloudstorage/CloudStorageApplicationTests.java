@@ -35,7 +35,7 @@ class CloudStorageApplicationTests {
     private static WebDriverWait wait = null;
 
     @BeforeAll
-    static void beforeAll() {
+    static void beforeEach() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 50);
@@ -47,7 +47,7 @@ class CloudStorageApplicationTests {
     }
 
     @AfterAll
-    public static void afterAll() {
+    public static void afterEach() {
         driver.quit();
     }
 
@@ -94,10 +94,11 @@ class CloudStorageApplicationTests {
     @Test
     @Order(2)
     public void createNoteTest() {
-        String title = "Title";
-        String description = "Description";
+        navigate("/login");
         loginPage.login(TESTUSERNAME, TESTPASSWORD);
         homePage.navigateToTab(TabName.NOTES);
+        String title = "Title";
+        String description = "Description";
         notesTab.createNote(title, description);
         Assertions.assertEquals(title, WaitForVisibility(notesTab.getNoteTitleTableElem()).getText());
         Assertions.assertEquals(description, WaitForVisibility(notesTab.getNotDescriptionTableElem()).getText());
@@ -106,6 +107,9 @@ class CloudStorageApplicationTests {
     @Test
     @Order(3)
     public void editNoteTest() {
+        navigate("/login");
+        loginPage.login(TESTUSERNAME, TESTPASSWORD);
+        homePage.navigateToTab(TabName.NOTES);
         String titleNew = "NEW_TITLE";
         String descriptionNew = "NEW_Description";
         notesTab.editNote(titleNew, descriptionNew);
@@ -116,6 +120,9 @@ class CloudStorageApplicationTests {
     @Test
     @Order(4)
     public void deleteNoteTest() {
+        navigate("/login");
+        loginPage.login(TESTUSERNAME, TESTPASSWORD);
+        homePage.navigateToTab(TabName.NOTES);
         notesTab.deleteNote();
         assertThrows(NoSuchElementException.class, () -> notesTab.getNoteTitleTableElem().getText());
         assertThrows(NoSuchElementException.class, () -> notesTab.getNotDescriptionTableElem().getText());
@@ -124,6 +131,9 @@ class CloudStorageApplicationTests {
     @Test
     @Order(5)
     public void createCredentialsTest() {
+        navigate("/login");
+        loginPage.login(TESTUSERNAME, TESTPASSWORD);
+        homePage.navigateToTab(TabName.CREDENTIALS);
         String url = "https://classroom.udacity.com/";
         String userName = "Username";
         String password = "Password";
@@ -137,6 +147,9 @@ class CloudStorageApplicationTests {
     @Test
     @Order(6)
     public void editCredentialsTest() {
+        navigate("/login");
+        loginPage.login(TESTUSERNAME, TESTPASSWORD);
+        homePage.navigateToTab(TabName.CREDENTIALS);
         String newUrl = "https://newUrl.com/";
         String newUserName = "newUsername";
         String newPassword = "newPassword";
@@ -154,6 +167,9 @@ class CloudStorageApplicationTests {
     @Test
     @Order(7)
     public void deleteCredentialsTest() {
+        navigate("/login");
+        loginPage.login(TESTUSERNAME, TESTPASSWORD);
+        homePage.navigateToTab(TabName.CREDENTIALS);
         credentialsTab.deleteCredntial();
         assertThrows(NoSuchElementException.class, () -> credentialsTab.getUrlTableElement().getText());
         assertThrows(NoSuchElementException.class, () -> credentialsTab.getUsernameTableElement().getText());
