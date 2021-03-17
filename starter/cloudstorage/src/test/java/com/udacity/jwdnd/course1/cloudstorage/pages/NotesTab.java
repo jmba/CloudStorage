@@ -1,16 +1,21 @@
 package com.udacity.jwdnd.course1.cloudstorage.pages;
 
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Getter
 public class NotesTab {
     private WebDriver driver;
+    WebDriverWait wait = null;
 
     public NotesTab(WebDriver driver) {
+        wait = new WebDriverWait(driver, 5);
         PageFactory.initElements(driver, this);
         this.driver = driver;
         js = (JavascriptExecutor) driver;
@@ -44,20 +49,24 @@ public class NotesTab {
     private WebElement deleteNoteLink;
 
     public void createNote(String title, String description) {
-        js.executeScript("arguments[0].click();", this.addNewNoteButton);
-        js.executeScript("arguments[0].value='" + title + "';", this.noteTitle);
-        js.executeScript("arguments[0].value='" + description + "';", this.description);
-        js.executeScript("arguments[0].click();", this.saveNoteButton);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.addNewNoteButton));
+        js.executeScript("arguments[0].value='" + title + "';", WaitForVisibility(this.noteTitle));
+        js.executeScript("arguments[0].value='" + description + "';", WaitForVisibility(this.description));
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.saveNoteButton));
     }
 
     public void editNote(String title, String description) {
-        js.executeScript("arguments[0].click();", this.editNoteButton);
-        js.executeScript("arguments[0].value='" + title + "';", this.noteTitle);
-        js.executeScript("arguments[0].value='" + description + "';", this.description);
-        js.executeScript("arguments[0].click();", this.saveNoteButton);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.editNoteButton));
+        js.executeScript("arguments[0].value='" + title + "';", WaitForVisibility(this.noteTitle));
+        js.executeScript("arguments[0].value='" + description + "';", WaitForVisibility(this.description));
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.saveNoteButton));
     }
 
     public void deleteNote() {
-        js.executeScript("arguments[0].click();", this.deleteNoteLink);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.deleteNoteLink));
+    }
+
+    private WebElement WaitForVisibility(WebElement element){
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 }

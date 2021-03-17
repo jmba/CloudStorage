@@ -6,7 +6,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -29,12 +32,13 @@ class CloudStorageApplicationTests {
     private String TESTPASSWORD = "Password";
     private String TESTFIRSTNAME = "FirstName";
     private String TESTLASTNAME = "LastName";
-
+    private static WebDriverWait wait = null;
 
     @BeforeAll
     static void beforeAll() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 50);
         signupPage = new SignupPage(driver);
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
@@ -71,16 +75,16 @@ class CloudStorageApplicationTests {
     public void signUpLoginLogoutTest() {
         navigate("/signup");
         signupPage.signUp(TESTFIRSTNAME, TESTLASTNAME, TESTUSERNAME, TESTPASSWORD);
-        assertEquals(loginPage.getSuccessMessage().getText(), "You successfully signed up!");
+        assertEquals(WaitForVisibility(loginPage.getSuccessMessage()).getText(), "You successfully signed up!");
         navigate("/signup");
         signupPage.signUp(TESTFIRSTNAME, TESTLASTNAME, TESTUSERNAME, TESTPASSWORD);
-        assertEquals(signupPage.getErrorMessage().getText(), "The username already exists.");
+        assertEquals(WaitForVisibility(signupPage.getErrorMessage()).getText(), "The username already exists.");
         assertThrows(NoSuchElementException.class, () -> signupPage.getSuccessMessage().getText());
         navigate("/login");
         loginPage.login("Donald", "Trump");
-        assertEquals(loginPage.getErrorMessage().getText(), "Invalid username or password");
+        assertEquals(WaitForVisibility(loginPage.getErrorMessage()).getText(), "Invalid username or password");
         loginPage.login(TESTUSERNAME, TESTPASSWORD);
-        homePage.getLogoutButton().submit();
+        WaitForVisibility(homePage.getLogoutButton()).submit();
         Assertions.assertEquals("Login", driver.getTitle());
         navigate("/home");
         Assertions.assertEquals("Login", driver.getTitle());
@@ -95,8 +99,8 @@ class CloudStorageApplicationTests {
         loginPage.login(TESTUSERNAME, TESTPASSWORD);
         homePage.navigateToTab(TabName.NOTES);
         notesTab.createNote(title, description);
-        Assertions.assertEquals(title, notesTab.getNoteTitleTableElem().getText());
-        Assertions.assertEquals(description, notesTab.getNotDescriptionTableElem().getText());
+        Assertions.assertEquals(title, WaitForVisibility(notesTab.getNoteTitleTableElem()).getText());
+        Assertions.assertEquals(description, WaitForVisibility(notesTab.getNotDescriptionTableElem()).getText());
     }
 
     @Test
@@ -105,8 +109,8 @@ class CloudStorageApplicationTests {
         String titleNew = "NEW_TITLE";
         String descriptionNew = "NEW_Description";
         notesTab.editNote(titleNew, descriptionNew);
-        Assertions.assertEquals(titleNew, notesTab.getNoteTitleTableElem().getText());
-        Assertions.assertEquals(descriptionNew, notesTab.getNotDescriptionTableElem().getText());
+        Assertions.assertEquals(titleNew, WaitForVisibility(notesTab.getNoteTitleTableElem()).getText());
+        Assertions.assertEquals(descriptionNew, WaitForVisibility(notesTab.getNotDescriptionTableElem()).getText());
     }
 
     @Test
@@ -125,9 +129,9 @@ class CloudStorageApplicationTests {
         String password = "Password";
         homePage.navigateToTab(TabName.CREDENTIALS);
         credentialsTab.createCredential(url, userName, password);
-        Assertions.assertEquals(url, credentialsTab.getUrlTableElement().getText());
-        Assertions.assertEquals(userName, credentialsTab.getUsernameTableElement().getText());
-        Assertions.assertNotEquals(password, credentialsTab.getPasswordTableElement().getText());
+        Assertions.assertEquals(url, WaitForVisibility(credentialsTab.getUrlTableElement()).getText());
+        Assertions.assertEquals(userName, WaitForVisibility(credentialsTab.getUsernameTableElement()).getText());
+        Assertions.assertNotEquals(password, WaitForVisibility(credentialsTab.getPasswordTableElement()).getText());
     }
 
     @Test
@@ -138,13 +142,13 @@ class CloudStorageApplicationTests {
         String newPassword = "newPassword";
         String oldPassword = "Password";
         credentialsTab.clickEditCredentials();
-        Assertions.assertEquals(oldPassword, credentialsTab.getPassword().getAttribute("value"));
+        Assertions.assertEquals(oldPassword, WaitForVisibility(credentialsTab.getPassword()).getAttribute("value"));
         credentialsTab.closeEditCredentialsModal();
         credentialsTab.editCredential(newUrl, newUserName, newPassword);
         credentialsTab.clickEditCredentials();
-        Assertions.assertEquals(newPassword, credentialsTab.getPassword().getAttribute("value"));
-        Assertions.assertEquals(newUrl, credentialsTab.getUrl().getAttribute("value"));
-        Assertions.assertEquals(newUserName, credentialsTab.getUsername().getAttribute("value"));
+        Assertions.assertEquals(newPassword, WaitForVisibility(credentialsTab.getPassword()).getAttribute("value"));
+        Assertions.assertEquals(newUrl, WaitForVisibility(credentialsTab.getUrl()).getAttribute("value"));
+        Assertions.assertEquals(newUserName, WaitForVisibility(credentialsTab.getUsername()).getAttribute("value"));
     }
 
     @Test
@@ -154,5 +158,9 @@ class CloudStorageApplicationTests {
         assertThrows(NoSuchElementException.class, () -> credentialsTab.getUrlTableElement().getText());
         assertThrows(NoSuchElementException.class, () -> credentialsTab.getUsernameTableElement().getText());
         assertThrows(NoSuchElementException.class, () -> credentialsTab.getPasswordTableElement().getText());
+    }
+
+    private WebElement WaitForVisibility(WebElement element){
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 }

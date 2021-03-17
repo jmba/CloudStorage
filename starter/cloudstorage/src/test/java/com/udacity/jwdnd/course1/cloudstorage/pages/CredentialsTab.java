@@ -6,14 +6,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Getter
 public class CredentialsTab {
     public CredentialsTab(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
+        wait = new WebDriverWait(driver, 5);
     }
 
+    WebDriverWait wait = null;
     private final JavascriptExecutor js;
 
     @FindBy(id = "credential-url")
@@ -50,30 +54,34 @@ public class CredentialsTab {
     private WebElement passwordTableElement;
 
     public void createCredential(String Url, String username, String password) {
-        js.executeScript("arguments[0].click();", this.addCredentialsButton);
-        js.executeScript("arguments[0].value='" + Url + "';", this.url);
-        js.executeScript("arguments[0].value='" + username + "';", this.username);
-        js.executeScript("arguments[0].value='" + password + "';", this.password);
-        js.executeScript("arguments[0].click();", this.saveCredentialButton);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.addCredentialsButton));
+        js.executeScript("arguments[0].value='" + Url + "';", WaitForVisibility(this.url));
+        js.executeScript("arguments[0].value='" + username + "';", WaitForVisibility(this.username));
+        js.executeScript("arguments[0].value='" + password + "';", WaitForVisibility(this.password));
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.saveCredentialButton));
     }
 
     public void editCredential(String url, String username, String password) {
-        js.executeScript("arguments[0].click();", this.editCredentialsButton);
-        js.executeScript("arguments[0].value='" + url + "';", this.url);
-        js.executeScript("arguments[0].value='" + username + "';", this.username);
-        js.executeScript("arguments[0].value='" + password + "';", this.password);
-        js.executeScript("arguments[0].click();", this.saveCredentialButton);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.editCredentialsButton));
+        js.executeScript("arguments[0].value='" + url + "';", WaitForVisibility(this.url));
+        js.executeScript("arguments[0].value='" + username + "';", WaitForVisibility(this.username));
+        js.executeScript("arguments[0].value='" + password + "';", WaitForVisibility(this.password));
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.saveCredentialButton));
     }
 
     public void clickEditCredentials() {
-        js.executeScript("arguments[0].click();", this.editCredentialsButton);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.editCredentialsButton));
     }
 
     public void closeEditCredentialsModal() {
-        js.executeScript("arguments[0].click();", this.closeCredentialsModal);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.closeCredentialsModal));
     }
 
     public void deleteCredntial() {
-        js.executeScript("arguments[0].click();", this.deleteCredentialsLink);
+        js.executeScript("arguments[0].click();", WaitForVisibility(this.deleteCredentialsLink));
+    }
+
+    private WebElement WaitForVisibility(WebElement element){
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 }
