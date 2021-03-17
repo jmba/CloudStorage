@@ -14,7 +14,7 @@ public class CredentialsTab {
     public CredentialsTab(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 50);
     }
 
     WebDriverWait wait = null;

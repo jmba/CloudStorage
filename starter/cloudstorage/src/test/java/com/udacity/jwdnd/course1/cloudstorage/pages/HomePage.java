@@ -20,7 +20,7 @@ public class HomePage {
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 50);
     }
 
     @Getter

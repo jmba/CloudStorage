@@ -15,7 +15,7 @@ public class NotesTab {
     WebDriverWait wait = null;
 
     public NotesTab(WebDriver driver) {
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 50);
         PageFactory.initElements(driver, this);
         this.driver = driver;
         js = (JavascriptExecutor) driver;

@@ -19,7 +19,7 @@ public class LoginPage {
 
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 50);
     }
 
     private final JavascriptExecutor js;
