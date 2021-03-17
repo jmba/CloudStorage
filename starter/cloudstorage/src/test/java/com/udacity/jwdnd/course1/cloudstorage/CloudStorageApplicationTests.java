@@ -35,20 +35,26 @@ class CloudStorageApplicationTests {
     private static WebDriverWait wait = null;
 
     @BeforeAll
-    static void beforeEach() {
+    static void beforeAll() {
         WebDriverManager.chromedriver().setup();
+    }
+
+    @BeforeEach
+    public void beforeEach() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 50);
         signupPage = new SignupPage(driver);
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         notesTab = new NotesTab(driver);
         credentialsTab = new CredentialsTab(driver);
+        wait = new WebDriverWait(driver, 50);
     }
 
-    @AfterAll
-    public static void afterEach() {
-        driver.quit();
+    @AfterEach
+    public void afterEach() {
+        if (this.driver != null) {
+            driver.quit();
+        }
     }
 
     private static void navigate(String endpoint) {
