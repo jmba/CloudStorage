@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import static java.lang.Thread.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -152,7 +153,7 @@ class CloudStorageApplicationTests {
 
     @Test
     @Order(6)
-    public void editCredentialsTest() {
+    public void editCredentialsTest() throws InterruptedException {
         navigate("/login");
         loginPage.login(TESTUSERNAME, TESTPASSWORD);
         homePage.navigateToTab(TabName.CREDENTIALS);
@@ -163,6 +164,7 @@ class CloudStorageApplicationTests {
         credentialsTab.clickEditCredentials();
         Assertions.assertEquals(oldPassword, WaitForVisibility(credentialsTab.getPassword()).getAttribute("value"));
         credentialsTab.closeEditCredentialsModal();
+        sleep(1000);
         credentialsTab.editCredential(newUrl, newUserName, newPassword);
         credentialsTab.clickEditCredentials();
         Assertions.assertEquals(newPassword, WaitForVisibility(credentialsTab.getPassword()).getAttribute("value"));
